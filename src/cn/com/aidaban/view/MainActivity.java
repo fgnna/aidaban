@@ -1,12 +1,15 @@
 package cn.com.aidaban.view;
 
 import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import cn.com.aidaban.R;
+import cn.com.aidaban.view.adapter.MainViewpagerAdapter;
 
 public class MainActivity extends FragmentActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
 {
@@ -23,6 +26,9 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 	 */
 	private CharSequence mTitle;
 	
+	
+	private ViewPager mViewPager ;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -35,7 +41,54 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 		
+		mViewPager =  (ViewPager) findViewById(R.id.viewpager);
+		mViewPager.setAdapter(new MainViewpagerAdapter(getSupportFragmentManager()) );
+		initViewpagerTitel();
 	}
+	
+	/**
+	 * 初始化Tab的标题：精选，今日
+	 */
+	private void initViewpagerTitel()
+	{
+		final ActionBar actionBar = getActionBar();
+		 // Specify that tabs should be displayed in the action bar.
+	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+	    // Create a tab listener that is called when the user changes tabs.
+	    ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+	        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+	        	mViewPager.setCurrentItem(tab.getPosition());
+	        }
+
+	        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+	            // hide the given tab
+	        }
+
+	        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+	            // probably ignore this event
+	        }
+	    };
+
+	    
+	    
+	    
+	    // Add 3 tabs, specifying the tab's text and TabListener
+	        actionBar.addTab( actionBar.newTab() .setText(R.string.title_tab1) .setTabListener(tabListener));
+	        actionBar.addTab( actionBar.newTab() .setText(R.string.title_tab2) .setTabListener(tabListener));
+		
+	    mViewPager.setOnPageChangeListener(
+	            new ViewPager.SimpleOnPageChangeListener() {
+	                @Override
+	                public void onPageSelected(int position) {
+	                    // When swiping between pages, select the
+	                    // corresponding tab.
+	                	actionBar.setSelectedNavigationItem(position);
+	                }
+	            });
+		
+	}
+	
 	
 	@Override
 	public void onNavigationDrawerItemSelected(int position)
@@ -68,24 +121,12 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 		}
 	}
 	
-	public void restoreActionBar()
-	{
-		ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(mTitle);
-	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		if (!mNavigationDrawerFragment.isDrawerOpen())
 		{
-			// Only show items in the action bar relevant to this screen
-			// if the drawer is not showing. Otherwise, let the drawer
-			// decide what to show in the action bar.
-			getMenuInflater().inflate(R.menu.main, menu);
-			restoreActionBar();
+			 getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 			return true;
 		}
 		return super.onCreateOptionsMenu(menu);
