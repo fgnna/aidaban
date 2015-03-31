@@ -1,34 +1,42 @@
 package cn.com.aidaban.view.adapter;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import cn.com.aidaban.view.ViewpagerFragment;
-
+import cn.com.aidaban.view.ViewpagerChoiceFragment;
+import cn.com.aidaban.view.ViewpagerTodayFragment;
+/**
+ * Viewpeger适配器
+ * 负责生产 精选 和 今日 两个主要界面的fragment对象
+ * @author jie
+ *
+ */
 public class MainViewpagerAdapter extends FragmentPagerAdapter
 {
 	
 	public MainViewpagerAdapter(FragmentManager fm)
 	{
 		super(fm);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public Fragment getItem(int arg0)
 	{
-		ViewpagerFragment mMainViewpagerFragmentnew = new ViewpagerFragment();
-		Bundle args = new Bundle();
-		args.putInt(ViewpagerFragment.ARG_COUNT_NAME, arg0);
-		mMainViewpagerFragmentnew.setArguments(args);
-		return mMainViewpagerFragmentnew;
+		switch (arg0)
+		{
+			case 0: //第一页是精选 页
+				return new ViewpagerChoiceFragment();
+			case 1://第二页是今天 页
+				return new ViewpagerTodayFragment();
+			default:
+				return null;
+		}
 	}
 	
 	@Override
 	public int getCount()
 	{
-		// TODO Auto-generated method stub
+		//页数，目前只有两页
 		return 2;
 	}
 	

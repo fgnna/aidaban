@@ -10,9 +10,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,36 +19,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import cn.com.aidaban.BuildConfig;
 import cn.com.aidaban.R;
 
 /**
- * Fragment used for managing interactions for and presentation of a navigation
- * drawer. See the <a href=
- * "https://developer.android.com/design/patterns/navigation-drawer.html#Interaction"
- * > design guidelines</a> for a complete explanation of the behaviors
- * implemented here.
+ * 抽屉导航管理类
+ * @author jie
  */
 public class NavigationDrawerFragment extends Fragment
 {
-	
+	private static final String LOG_TAG = "NavigationDrawerFragment";
 	/**
-	 * Remember the position of the selected item.
+	 * 用于缓存当前选中项的标记字段
 	 */
 	private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 	
 	/**
-	 * Per the design guidelines, you should show the drawer on launch until the
-	 * user manually expands it. This shared preference tracks this.
+	 * 第一次使用APP的标记字段
 	 */
 	private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 	
 	/**
-	 * A pointer to the current callbacks instance (the Activity).
-	 */
-	private NavigationDrawerCallbacks mCallbacks;
-	
-	/**
-	 * Helper component that ties the action bar to the navigation drawer.
+	 * 抽屉组件的辅助组件，用于捆绑动作行为。
+	 * 就是抽屉的开关事件
 	 */
 	private ActionBarDrawerToggle mDrawerToggle;
 	
@@ -65,6 +57,10 @@ public class NavigationDrawerFragment extends Fragment
 	{
 	}
 	
+	/**
+	 * 这里只做一件事
+	 * 判断用户是否第一次使用APP，并使用持久化标记。
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -81,9 +77,7 @@ public class NavigationDrawerFragment extends Fragment
 			mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
 			mFromSavedInstanceState = true;
 		}
-		
-		// Select either the default item (0) or the last selected item.
-		selectItem(mCurrentSelectedPosition);
+	
 	}
 	
 	@Override
@@ -95,9 +89,14 @@ public class NavigationDrawerFragment extends Fragment
 		setHasOptionsMenu(true);
 	}
 	
+	/**
+	 * 创建ListView列表
+	 * 
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
+		
 		mDrawerListView = (ListView) inflater.inflate(R.layout.navigation_drawer_main, container, false);
 		mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
@@ -113,37 +112,49 @@ public class NavigationDrawerFragment extends Fragment
 		return mDrawerListView;
 	}
 	
+	/**
+	 * 判断抽屉是否打开
+	 * @return boolean 是否已经打开
+	 */
 	public boolean isDrawerOpen()
 	{
 		return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
 	}
 	
 	/**
-	 * Users of this fragment must call this method to set up the navigation
-	 * drawer interactions.
+	 * 此方法用于设置抽屉导航的布局方式
+	 * 使用抽屉的用户在初始化时必须调用此方法完成设置
 	 * 
 	 * @param fragmentId
-	 *            The android:id of this fragment in its activity's layout.
+	 *            抽屉导航栏的ID，
 	 * @param drawerLayout
-	 *            The DrawerLayout containing this fragment's UI.
+	 *            DrawerLayout（抽屉布局）的UI对象实例
 	 */
 	public void setUp(int fragmentId, DrawerLayout drawerLayout)
 	{
+		//缓存实例对象，以备其它方法使用
 		mFragmentContainerView = getActivity().findViewById(fragmentId);
 		mDrawerLayout = drawerLayout;
 		
-		// set a custom shadow that overlays the main content when the drawer
-		// opens
+		
+		// 设置在抽屉打开时间，使用一个自定义的阴影层覆盖主内容
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-		// set up the drawer's list view with items and click listener
+		
+		//设置抽屉选项列表的点击事件
+		//TODO ?这里没有处理？
 		
 		ActionBar actionBar = getActionBar();
+		//开启ActionBar的左上角为可点击,该选项在android4.0以后版本默认为false
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		//这个是必须和setDisplayHomeAsUpEnabled搭配使用的
+		//参考URL : http://blog.csdn.net/lovexieyuan520/article/details/9974929
 		actionBar.setHomeButtonEnabled(true);
 		
-		// ActionBarDrawerToggle ties together the the proper interactions
-		// between the navigation drawer and the action bar app icon.
-		mDrawerToggle = new ActionBarDrawerToggle(getActivity(), /* host Activity */
+
+		// 设置在抽屉开启和关闭时的监听事件
+		//同时包含左上角标提文字和图标的切换动画处理。
+		mDrawerToggle = new ActionBarDrawerToggle(
+								getActivity(), /* host Activity */
 								mDrawerLayout, /* DrawerLayout object */
 								R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
 								R.string.navigation_drawer_open, /* "open drawer" description for accessibility */
@@ -153,49 +164,40 @@ public class NavigationDrawerFragment extends Fragment
 							@Override
 							public void onDrawerClosed(View drawerView)
 							{
+								if(BuildConfig.DEBUG)
+									Log.d(LOG_TAG,"onDrawerClosed");
 								super.onDrawerClosed(drawerView);
-								if (!isAdded())
-								{
-									return;
-								}
-								
-								getActivity().invalidateOptionsMenu(); // calls
-																		// onPrepareOptionsMenu()
+					
 							}
 							
 							@Override
 							public void onDrawerOpened(View drawerView)
 							{
+								if(BuildConfig.DEBUG)
+									Log.d(LOG_TAG,"onDrawerOpened");
 								super.onDrawerOpened(drawerView);
-								if (!isAdded())
-								{
-									return;
-								}
+								//片段是否已经移除，用途暂不明
+								if (!isAdded()) { return; }
 								
+								/**
+								 * 这个是用于标记用户已经不是第一次使用抽屉模式，下次打开APP的时候不再会自动打开（用户抽屉学习），可查看{@link #onCreate}
+								 */
 								if (!mUserLearnedDrawer)
 								{
-									// The user manually opened the drawer; store this flag to
-									// prevent auto-showing
-									// the navigation drawer automatically in the future.
 									mUserLearnedDrawer = true;
 									SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 									sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
 								}
-								
-								getActivity().invalidateOptionsMenu(); // calls
-																		// onPrepareOptionsMenu()
 							}
 						};
 		
-		// If the user hasn't 'learned' about the drawer, open it to introduce
-		// them to the drawer,
-		// per the navigation drawer design guidelines.
+		//首次使用，自动打开抽屉
 		if (!mUserLearnedDrawer && !mFromSavedInstanceState)
 		{
 			mDrawerLayout.openDrawer(mFragmentContainerView);
 		}
 		
-		// Defer code dependent on restoration of previous instance state.
+		// 延迟状态同步,参考URL:http://blog.csdn.net/jjwwmlp456/article/details/41206513
 		mDrawerLayout.post(new Runnable()
 		{
 			@Override
@@ -205,11 +207,19 @@ public class NavigationDrawerFragment extends Fragment
 			}
 		});
 		
+		//开关监听
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
 	
+	/**
+	 * 抽屉的选项点击事件
+	 * @param position 被点中的选项的下标
+	 */
 	private void selectItem(int position)
 	{
+		if(BuildConfig.DEBUG)
+			Log.d(LOG_TAG,"selectItem");
+		//缓存当前选项下标
 		mCurrentSelectedPosition = position;
 		if (mDrawerListView != null)
 		{
@@ -219,32 +229,47 @@ public class NavigationDrawerFragment extends Fragment
 		{
 			mDrawerLayout.closeDrawer(mFragmentContainerView);
 		}
-		if (mCallbacks != null)
-		{
-			mCallbacks.onNavigationDrawerItemSelected(position);
-		}
+
 	}
 	
+	/**
+	 * 初始化导航栏时触发
+	 * 这是在生命周中的第一步
+	 * 在这之后是{@link #onCreate}}
+	 */
 	@Override
 	public void onAttach(Activity activity)
 	{
+		if(BuildConfig.DEBUG)
+			Log.d(LOG_TAG,"onAttach");
+		
 		super.onAttach(activity);
 		try
 		{
-			mCallbacks = (NavigationDrawerCallbacks) activity;
+			//mCallbacks = (NavigationDrawerCallbacks) activity;
 		} catch (ClassCastException e)
 		{
 			throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
 		}
 	}
 	
+	/**
+	 * 当这个Fragment布局被移除时触发
+	 * 用于清理销毁前清理
+	 * 在抽屉关闭时也会触发这个
+	 */
 	@Override
 	public void onDetach()
 	{
+		if(BuildConfig.DEBUG)
+			Log.d(LOG_TAG,"onDetach");
 		super.onDetach();
-		mCallbacks = null;
 	}
 	
+	/**
+	 * activity切换时的状态保存方法，
+	 * 参考 : http://blog.csdn.net/yuzhiboyi/article/details/7677026
+	 */
 	@Override
 	public void onSaveInstanceState(Bundle outState)
 	{
@@ -252,6 +277,10 @@ public class NavigationDrawerFragment extends Fragment
 		outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
 	}
 	
+	/**
+	 * 当android的配置被改变时，会触发这方法，有可能重启activity
+	 * 当配置被改变时，要同通知DrawerToggle进行调整
+	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig)
 	{
@@ -260,21 +289,10 @@ public class NavigationDrawerFragment extends Fragment
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 	
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-	{
-		// If the drawer is open, show the global app actions in the action bar.
-		// See also
-		// showGlobalContextActionBar, which controls the top-left area of the
-		// action bar.
-		if (mDrawerLayout != null && isDrawerOpen())
-		{
-			inflater.inflate(R.menu.global, menu);
-			showGlobalContextActionBar();
-		}
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-	
+	/**
+	 *  左上角UP键点击事件
+	 *  弹出和关闭抽屉
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -292,33 +310,22 @@ public class NavigationDrawerFragment extends Fragment
 		return super.onOptionsItemSelected(item);
 	}
 	
-	/**
-	 * Per the navigation drawer design guidelines, updates the action bar to
-	 * show the global app 'context', rather than just what's in the current
-	 * screen.
-	 */
-	private void showGlobalContextActionBar()
-	{
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		actionBar.setTitle(R.string.app_name);
-	}
-	
 	private ActionBar getActionBar()
 	{
 		return getActivity().getActionBar();
 	}
 	
 	/**
-	 * Callbacks interface that all activities using this fragment must
+	 * 点击选项后的回调事件，
+	 * 由activity现实，
 	 * implement.
 	 */
 	public static interface NavigationDrawerCallbacks
 	{
 		/**
-		 * Called when an item in the navigation drawer is selected.
+		 * 通知activity当前第几项发生点击事件
 		 */
 		void onNavigationDrawerItemSelected(int position);
 	}
+	
 }
