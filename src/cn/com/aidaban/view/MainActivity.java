@@ -119,7 +119,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 			Log.d(LOG_TAG, "onCreateOptionsMenu");
 		if (!mNavigationDrawerFragment.isDrawerOpen())
 		{
-			 getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+			// getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 			return true;
 		}
 		return super.onCreateOptionsMenu(menu);

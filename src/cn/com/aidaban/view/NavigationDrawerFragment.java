@@ -166,6 +166,7 @@ public class NavigationDrawerFragment extends Fragment
 							{
 								if(BuildConfig.DEBUG)
 									Log.d(LOG_TAG,"onDrawerClosed");
+								getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 								super.onDrawerClosed(drawerView);
 					
 							}
@@ -175,6 +176,8 @@ public class NavigationDrawerFragment extends Fragment
 							{
 								if(BuildConfig.DEBUG)
 									Log.d(LOG_TAG,"onDrawerOpened");
+								getActionBar().setNavigationMode(ActionBar.DISPLAY_HOME_AS_UP);
+								
 								super.onDrawerOpened(drawerView);
 								//片段是否已经移除，用途暂不明
 								if (!isAdded()) { return; }
@@ -296,10 +299,21 @@ public class NavigationDrawerFragment extends Fragment
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
+		if(BuildConfig.DEBUG)
+			Log.d(LOG_TAG,"onOptionsItemSelected");
+		
+		//如果点击的是HOME键，先隐藏tab栏
+		if (item.getItemId() == android.R.id.home)
+		{
+			getActionBar().setNavigationMode(ActionBar.DISPLAY_HOME_AS_UP);
+		}
+		
+		
 		if (mDrawerToggle.onOptionsItemSelected(item))
 		{
 			return true;
 		}
+		
 		
 		if (item.getItemId() == R.id.action_example)
 		{
