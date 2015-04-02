@@ -37,6 +37,8 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 		super.onCreate(savedInstanceState);
 		//主界面布局包括Viewpager和NavigationDrawer两个。
 		setContentView(R.layout.activity_main);
+		//删除背景，优性性能
+		getWindow().setBackgroundDrawable(null);
 		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
 		
@@ -46,6 +48,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 		mViewPager =  (ViewPager) findViewById(R.id.viewpager);
 		mViewPager.setAdapter(new MainViewpagerAdapter(getSupportFragmentManager()) );
 		initViewpagerTitel();
+		
 	}
 	
 	/**
