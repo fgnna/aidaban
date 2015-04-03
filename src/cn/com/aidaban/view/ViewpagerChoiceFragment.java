@@ -1,11 +1,9 @@
 package cn.com.aidaban.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +26,10 @@ public class ViewpagerChoiceFragment extends Fragment implements ChoiceViewInter
 	private ListView mListView;
 	private ChoicePresenter mChoicePresenter;//业务主导器
 	
+	private  Handler handler = new Handler();
+	
+ 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -47,9 +49,16 @@ public class ViewpagerChoiceFragment extends Fragment implements ChoiceViewInter
 	}
 	
 	@Override
-	public void initPageData(List<ChoiceBean> list)
+	public void initPageData(final List<ChoiceBean> list)
 	{
-		mListView.setAdapter(new ChoiceListViewAdapter(getActivity().getApplicationContext(),list));
+		handler.post(new Runnable() {
+		    public void run() {
+		    	
+		    	mListView.setAdapter(new ChoiceListViewAdapter(getActivity().getApplicationContext(),list));
+		    
+		    	
+		    }
+		  });
 	}
 	
 }

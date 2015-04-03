@@ -1,6 +1,8 @@
 package cn.com.aidaban.presenter;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Handler;
 import cn.com.aidaban.model.ChoiceModel;
 import cn.com.aidaban.presenter.modelinterface.ChoiceModelInterface;
 import cn.com.aidaban.presenter.viewinterface.ChoiceViewInterface;
@@ -28,8 +30,21 @@ public class ChoicePresenter
 	//初始化步骤
 	private void init()
 	{
-		//初始化第一页的数据
-		mChoiceViewInterface.initPageData( mChoiceModelInterface.getInitPageData(mContext) );
+		
+		new AsyncTask(){
+
+			@Override
+			protected Object doInBackground(Object... params)
+			{
+				//初始化第一页的数据
+				mChoiceViewInterface.initPageData( mChoiceModelInterface.getInitPageData(mContext) );
+				return null;
+			}
+			
+			
+			
+		}.execute(100);
+		
 	}
 	
 }
