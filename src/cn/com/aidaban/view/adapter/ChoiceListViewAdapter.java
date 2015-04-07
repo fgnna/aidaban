@@ -113,8 +113,7 @@ public class ChoiceListViewAdapter extends BaseAdapter
 			ImageView mImageView = (ImageView) view.findViewById(R.id.choice_head_image_id);
 			mImageView.setImageBitmap(mHeadData.getImage());
 			view.setTag(view);
-		} else
-		// 第二行开始使用 R.layout.viewpager_choice_body 视图
+		} else	// 第二行开始使用 R.layout.viewpager_choice_body 视图
 		{
 			// 先把position减1,因为不能把第一行算进来。
 			int newPostition = position - 1;
@@ -123,11 +122,13 @@ public class ChoiceListViewAdapter extends BaseAdapter
 			
 			ImageView mImageView1 = (ImageView) view.findViewById(R.id.choice_body_image_1);
 			if (mDataListLeft.size() > newPostition)
-				mImageView1.setImageBitmap(mDataListLeft.get(newPostition).getImage());
+				mImageView1.setImageBitmap(
+						mDataListLeft.get(newPostition).getImage());
 			
 			ImageView mImageView2 = (ImageView) view.findViewById(R.id.choice_body_image_2);
 			if (mDataListRight.size() > newPostition)
-				mImageView2.setImageBitmap(mDataListRight.get(newPostition).getImage());
+				mImageView2.setImageBitmap(
+						mDataListRight.get(newPostition).getImage());
 			
 			view.setTag(view);
 		}
