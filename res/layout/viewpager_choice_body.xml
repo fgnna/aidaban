@@ -9,7 +9,7 @@
         <!-- 上面是一张图片 -->
         <ImageView
             android:id="@+id/choice_body_image_1" 
-            style="ChoiceBodyItemLinearLayoutImageView"  />
+            style="@style/ChoiceBodyItemLinearLayoutImageView"  />
         <!-- 下面是一段文字描述 -->
         <TextView
             android:id="@+id/choice_body_text_1" 
@@ -20,7 +20,7 @@
         
         <ImageView
             android:id="@+id/choice_body_image_2" 
-           style="ChoiceBodyItemLinearLayoutImageView"  />
+           style="@style/ChoiceBodyItemLinearLayoutImageView"  />
         <TextView
             android:id="@+id/choice_body_text_2" 
             style="@style/ChoiceBodyItemLinearLayoutTextView"   />

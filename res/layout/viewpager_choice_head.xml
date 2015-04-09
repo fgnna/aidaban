@@ -6,8 +6,9 @@
     android:orientation="vertical" >
 
     <ImageView
+        style="@style/ChoiceHeadImageView" 
         android:id="@+id/choice_head_image_id"
-        style="@style/ChoiceHeadImageView" />
+        />
 
     <LinearLayout style="@style/ChoiceHeadItemLinearLayout" >
 
