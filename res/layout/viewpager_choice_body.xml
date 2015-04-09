@@ -3,33 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:weightSum="1"
-   android:background="@android:color/white" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:orientation="vertical" >
-        <ImageView 
-            android:id="@+id/choice_body_image_1"
-            android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            />
-        
+    android:weightSum="1">
+<!-- 左视图 -->
+    <LinearLayout  style="@style/ChoiceBodyItemLinearLayoutLeft" >
+        <!-- 上面是一张图片 -->
+        <ImageView
+            android:id="@+id/choice_body_image_1" 
+            style="ChoiceBodyItemLinearLayoutImageView"  />
+        <!-- 下面是一段文字描述 -->
+        <TextView
+            android:id="@+id/choice_body_text_1" 
+            style="@style/ChoiceBodyItemLinearLayoutTextView"   />
     </LinearLayout>
     
-       <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:orientation="vertical" >
+    <LinearLayout  style="@style/ChoiceBodyItemLinearLayoutRight" >
         
         <ImageView
             android:id="@+id/choice_body_image_2" 
-            android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            />
+           style="ChoiceBodyItemLinearLayoutImageView"  />
+        <TextView
+            android:id="@+id/choice_body_text_2" 
+            style="@style/ChoiceBodyItemLinearLayoutTextView"   />
         
     </LinearLayout>
 

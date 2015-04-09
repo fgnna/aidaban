@@ -24,6 +24,7 @@ public class ViewpagerChoiceFragment extends Fragment implements ChoiceViewInter
 
 	private static final String LOG_TAG = "ViewpagerChoiceFragment";
 	private ListView mListView;
+	private ChoiceListViewAdapter mChoiceListViewAdapter;
 	private ChoicePresenter mChoicePresenter;//业务主导器
 	
 	private  Handler handler = new Handler();
@@ -51,14 +52,25 @@ public class ViewpagerChoiceFragment extends Fragment implements ChoiceViewInter
 	@Override
 	public void initPageData(final List<ChoiceBean> list)
 	{
+		mChoiceListViewAdapter = new ChoiceListViewAdapter(getActivity().getApplicationContext(),list,mChoicePresenter);
+		
 		handler.post(new Runnable() {
 		    public void run() {
-		    	
-		    	mListView.setAdapter(new ChoiceListViewAdapter(getActivity().getApplicationContext(),list));
-		    
-		    	
+		    	mListView.setAdapter(mChoiceListViewAdapter );
 		    }
 		  });
 	}
+	
+	@Override
+	public void updateNextPageData(final List<ChoiceBean> data)
+	{
+		handler.post(new Runnable() {
+			   public void run() {
+		mChoiceListViewAdapter.addNewDatas(data);
+		   }
+	  });
+	}
+
+
 	
 }

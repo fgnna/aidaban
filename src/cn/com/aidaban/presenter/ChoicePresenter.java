@@ -1,11 +1,13 @@
 package cn.com.aidaban.presenter;
 
+import java.util.List;
+
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Handler;
 import cn.com.aidaban.model.ChoiceModel;
 import cn.com.aidaban.presenter.modelinterface.ChoiceModelInterface;
 import cn.com.aidaban.presenter.viewinterface.ChoiceViewInterface;
+import cn.com.aidaban.view.adapter.ChoiceListViewAdapter;
 /**
  * 精彩页 的业务主导器
  * 负责数据业务逻辑的调用
@@ -13,7 +15,7 @@ import cn.com.aidaban.presenter.viewinterface.ChoiceViewInterface;
  * @author jie
  *
  */
-public class ChoicePresenter
+public class ChoicePresenter implements ChoiceListViewAdapter.DataUpdateCallback
 {
 	private Context mContext;
 	private ChoiceViewInterface mChoiceViewInterface;
@@ -30,9 +32,7 @@ public class ChoicePresenter
 	//初始化步骤
 	private void init()
 	{
-		
 		new AsyncTask(){
-
 			@Override
 			protected Object doInBackground(Object... params)
 			{
@@ -40,11 +40,44 @@ public class ChoicePresenter
 				mChoiceViewInterface.initPageData( mChoiceModelInterface.getInitPageData(mContext) );
 				return null;
 			}
-			
-			
-			
-		}.execute(100);
-		
+		}.execute(10);
 	}
 	
+	/**
+	 * 
+	 * @param lastPostition
+	 * @return
+	 */
+	public List getNewData(int lastPostition)
+	{
+		new AsyncTask(){
+			@Override
+			protected Object doInBackground(Object... params)
+			{
+				//初始化第一页的数据
+				mChoiceViewInterface.initPageData( mChoiceModelInterface.getInitPageData(mContext) );
+				return null;
+			}
+		}.execute(10);
+		
+		return null;
+	}
+	
+	/**
+	 * ListView拖动到底部后的回调方法
+	 * @param 最后一位的下标
+	 */
+	@Override
+	public void notifyLast(final int lastPosition)
+	{
+		new AsyncTask(){
+			@Override
+			protected Object doInBackground(Object... params)
+			{
+				//初始化第一页的数据
+				mChoiceViewInterface.updateNextPageData( mChoiceModelInterface.getNextPageData(lastPosition) );
+				return null;
+			}
+		}.execute(10);
+	}
 }

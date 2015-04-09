@@ -14,4 +14,10 @@ public interface ChoiceViewInterface
 	 * @param list 第一页的数据
 	 */
 	public void initPageData(List<ChoiceBean> list);
+
+	/**
+	 * 更新下一页的新数据
+	 * @param data
+	 */
+	public void updateNextPageData(List<ChoiceBean> data);
 }

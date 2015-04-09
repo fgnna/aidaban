@@ -6,9 +6,18 @@ import java.net.URL;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
+/**
+ * 自己BitmapFactory工具类
+ * @author jie
+ *
+ */
 public class BaseBitmapFactory extends BitmapFactory
 {
+	/**
+	 * 通过网络路径加载图片
+	 * @param url
+	 * @return
+	 */
 	public static Bitmap createBitmapByURL(String url)
 	{
 		 URL myFileURL;  

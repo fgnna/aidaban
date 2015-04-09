@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
+import cn.com.aidaban.BuildConfig;
 import cn.com.aidaban.R;
+import cn.com.aidaban.common.BaseBitmapFactory;
 import cn.com.aidaban.model.bean.ChoiceBean;
 
 /**
@@ -35,8 +39,10 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	private Context mContext;
 	// 构建视图时需要用到
 	private LayoutInflater mInflater;
-	// 是否有实现回调方法
-	private boolean isCallback;
+	//拖动到底部，调用的数据更新回调方法
+	private DataUpdateCallback mDataUpdateCallback;
+	//是否正通知更新,用此标记，避免同一时间多次调用
+	private boolean isCallbacking;
 	
 	private ChoiceListViewAdapter()
 	{
@@ -49,7 +55,7 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	 * @param dataList
 	 *            这里的传入数据限定为 {@link ChoiceBean} 的集合
 	 */
-	public ChoiceListViewAdapter(Context context, List<ChoiceBean> dataList)
+	public ChoiceListViewAdapter(Context context, List<ChoiceBean> dataList ,DataUpdateCallback dataUpdateCallback)
 	{
 		this.mContext = context;
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,8 +63,7 @@ public class ChoiceListViewAdapter extends BaseAdapter
 		/**
 		 * 检查是否有现实{@link ChoiceListViewAdapter.DataUpdateCallback}
 		 */
-		if (context instanceof DataUpdateCallback)
-			this.isCallback = true;
+		mDataUpdateCallback = dataUpdateCallback;
 		
 		// 对数据进行分组
 		groupByDataList(dataList, false);
@@ -110,7 +115,7 @@ public class ChoiceListViewAdapter extends BaseAdapter
 		if (0 == position) // 首行，取mHeadData的值
 		{
 			view = mInflater.inflate(R.layout.viewpager_choice_head, parent, false);
-			ImageView mImageView = (ImageView) view.findViewById(R.id.choice_head_image_id);
+			final ImageView mImageView = (ImageView) view.findViewById(R.id.choice_head_image_id);
 			mImageView.setImageBitmap(mHeadData.getImage());
 			view.setTag(view);
 		} else	// 第二行开始使用 R.layout.viewpager_choice_body 视图
@@ -120,35 +125,67 @@ public class ChoiceListViewAdapter extends BaseAdapter
 			
 			view = mInflater.inflate(R.layout.viewpager_choice_body, parent, false);
 			
-			ImageView mImageView1 = (ImageView) view.findViewById(R.id.choice_body_image_1);
+			//填充左图数据
 			if (mDataListLeft.size() > newPostition)
+			{
+				ChoiceBean mChoiceBean = mDataListLeft.get(newPostition);
+				ImageView mImageView1 = (ImageView) view.findViewById(R.id.choice_body_image_1);
 				mImageView1.setImageBitmap(
-						mDataListLeft.get(newPostition).getImage());
+						mChoiceBean.getImage());
+				
+				TextView mTextView1 = (TextView) view.findViewById(R.id.choice_body_text_1);
+				mTextView1.setText(mChoiceBean.getContent());
+			}
 			
-			ImageView mImageView2 = (ImageView) view.findViewById(R.id.choice_body_image_2);
+			//填充右图数据
 			if (mDataListRight.size() > newPostition)
+			{
+				ChoiceBean mChoiceBean = mDataListRight.get(newPostition);
+				ImageView mImageView2 = (ImageView) view.findViewById(R.id.choice_body_image_2);
 				mImageView2.setImageBitmap(
 						mDataListRight.get(newPostition).getImage());
+				
+				
+				TextView mTextView2 = (TextView) view.findViewById(R.id.choice_body_text_2);
+				mTextView2.setText(mChoiceBean.getContent());
+			}
 			
 			view.setTag(view);
 		}
-		
-		if (position == (getCount() - 1))
+		//如果已经到达底部,并且有实现回调方法，则通知更新,因为position是从0开始，所以和行数对比时要先+1
+		if ( (position+1) == getCount() && null != mDataUpdateCallback && !isCallbacking )
 		{
+			// 先把position减1,因为不能把第一行算进来。
+			mDataUpdateCallback.notifyLast(position - 1);
+			isCallbacking = true;
 		}
 		
 		return view;
 	}
 	
 	/**
+	 * 把新数据添加至尾部
+	 * @param newDatas
+	 */
+	public void addNewDatas(List<ChoiceBean> newDatas)
+	{
+		//对新数据进行分组
+		groupByDataList(newDatas,true);
+		//通知变更
+		notifyDataSetChanged();
+		isCallbacking = false;
+	}
+	
+	
+	/**
 	 * 更新数据的勾子 当列被拉至尾部时，会调查当前{@link ChoiceListViewAdapter#mContext} 是否实现了这个接口，
-	 * 如果现实了，则会调用方法并把返回的数据追至队列的尾部.
+	 * 如果现实了，则会调用通知，并具需要调用{@link #addNewDatas}方法把新的数据添加至尾部
 	 * 
 	 * @author jie
 	 */
 	public static interface DataUpdateCallback
 	{
-		public List<ChoiceBean> addNewData(int lastPosition);
+		public void notifyLast(int lastPosition);
 	}
 	
 	@Override
