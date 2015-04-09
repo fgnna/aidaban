@@ -44,26 +44,6 @@ public class ChoicePresenter implements ChoiceListViewAdapter.DataUpdateCallback
 	}
 	
 	/**
-	 * 
-	 * @param lastPostition
-	 * @return
-	 */
-	public List getNewData(int lastPostition)
-	{
-		new AsyncTask(){
-			@Override
-			protected Object doInBackground(Object... params)
-			{
-				//初始化第一页的数据
-				mChoiceViewInterface.initPageData( mChoiceModelInterface.getInitPageData(mContext) );
-				return null;
-			}
-		}.execute(10);
-		
-		return null;
-	}
-	
-	/**
 	 * ListView拖动到底部后的回调方法
 	 * @param 最后一位的下标
 	 */
