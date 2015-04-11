@@ -14,7 +14,7 @@ import android.widget.TextView;
 import cn.com.aidaban.BuildConfig;
 import cn.com.aidaban.R;
 import cn.com.aidaban.common.BaseBitmapFactory;
-import cn.com.aidaban.model.bean.ChoiceBean;
+import cn.com.aidaban.model.bean.SubjectBean;
 
 /**
  * 精彩页，ListView适配器
@@ -31,9 +31,9 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	 * {@link #groupByDataList(List)} mHeadData 第一个视图，第一行为单个图片信息，所以单独存起
 	 * mDataListLeft 左视图， mDataListRight 右视图
 	 */
-	private ChoiceBean mHeadData;
-	private List<ChoiceBean> mDataListLeft = new ArrayList<ChoiceBean>();
-	private List<ChoiceBean> mDataListRight = new ArrayList<ChoiceBean>();
+	private SubjectBean mHeadData;
+	private List<SubjectBean> mDataListLeft = new ArrayList<SubjectBean>();
+	private List<SubjectBean> mDataListRight = new ArrayList<SubjectBean>();
 	
 	// 备用
 	private Context mContext;
@@ -53,9 +53,9 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	 * 
 	 * @param context
 	 * @param dataList
-	 *            这里的传入数据限定为 {@link ChoiceBean} 的集合
+	 *            这里的传入数据限定为 {@link SubjectBean} 的集合
 	 */
-	public ChoiceListViewAdapter(Context context, List<ChoiceBean> dataList ,DataUpdateCallback dataUpdateCallback)
+	public ChoiceListViewAdapter(Context context, List<SubjectBean> dataList ,DataUpdateCallback dataUpdateCallback)
 	{
 		this.mContext = context;
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,7 +79,7 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	 *            是否新增，即数据是否通过调用 @ DataUpdateCallback#addNewData(int)} 获得。
 	 *            如果否，即数据是第一次初始化时传入，会把索引为0的对像取出放到{@link #mHeadData}中
 	 */
-	private void groupByDataList(List<ChoiceBean> list, boolean isUpdate)
+	private void groupByDataList(List<SubjectBean> list, boolean isUpdate)
 	{
 		int index = 0;
 		
@@ -117,7 +117,6 @@ public class ChoiceListViewAdapter extends BaseAdapter
 			view = mInflater.inflate(R.layout.viewpager_choice_head, parent, false);
 			final ImageView mImageView = (ImageView) view.findViewById(R.id.choice_head_image_id);
 			mImageView.setImageBitmap(mHeadData.getImage());
-			view.setTag(view);
 		} else	// 第二行开始使用 R.layout.viewpager_choice_body 视图
 		{
 			// 先把position减1,因为不能把第一行算进来。
@@ -128,7 +127,7 @@ public class ChoiceListViewAdapter extends BaseAdapter
 			//填充左图数据
 			if (mDataListLeft.size() > newPostition)
 			{
-				ChoiceBean mChoiceBean = mDataListLeft.get(newPostition);
+				SubjectBean mChoiceBean = mDataListLeft.get(newPostition);
 				ImageView mImageView1 = (ImageView) view.findViewById(R.id.choice_body_image_1);
 				mImageView1.setImageBitmap(
 						mChoiceBean.getImage());
@@ -140,7 +139,7 @@ public class ChoiceListViewAdapter extends BaseAdapter
 			//填充右图数据
 			if (mDataListRight.size() > newPostition)
 			{
-				ChoiceBean mChoiceBean = mDataListRight.get(newPostition);
+				SubjectBean mChoiceBean = mDataListRight.get(newPostition);
 				ImageView mImageView2 = (ImageView) view.findViewById(R.id.choice_body_image_2);
 				mImageView2.setImageBitmap(
 						mDataListRight.get(newPostition).getImage());
@@ -150,7 +149,6 @@ public class ChoiceListViewAdapter extends BaseAdapter
 				mTextView2.setText(mChoiceBean.getContent());
 			}
 			
-			view.setTag(view);
 		}
 		//如果已经到达底部,并且有实现回调方法，则通知更新,因为position是从0开始，所以和行数对比时要先+1
 		if ( (position+1) == getCount() && null != mDataUpdateCallback && !isCallbacking )
@@ -167,7 +165,7 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	 * 把新数据添加至尾部
 	 * @param newDatas
 	 */
-	public void addNewDatas(List<ChoiceBean> newDatas)
+	public void addNewDatas(List<SubjectBean> newDatas)
 	{
 		//对新数据进行分组
 		groupByDataList(newDatas,true);

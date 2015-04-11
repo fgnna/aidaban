@@ -11,7 +11,7 @@ import cn.com.aidaban.model.bean.SubjectBean;
  * @author jie
  * 
  */
-public interface ChoiceModelInterface
+public interface TodayModelInterface
 {
 	/**
 	 * 获取首页数据集
@@ -20,14 +20,4 @@ public interface ChoiceModelInterface
 	 * @return
 	 */
 	public List<SubjectBean> getInitPageData(Context context);
-	
-	/**
-	 * 获取下一页的数据
-	 * 
-	 * @param lastPosition
-	 *            最尾部的下标,注意下标从0开始
-	 * @return
-	 *     		下标对应的下一组数据
-	 */
-	public List<SubjectBean> getNextPageData(int lastPosition);
 }

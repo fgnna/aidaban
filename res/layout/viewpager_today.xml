@@ -10,6 +10,6 @@
      android:footerDividersEnabled="false" 
      android:headerDividersEnabled="false"
      android:divider="@android:color/white"
-    tools:context="cn.com.aidaban.view.ViewpagerChoiceFragment" >
+    tools:context="cn.com.aidaban.view.ViewpagerTodayFragment" >
 	<!-- 不要分割线 -->
 </ListView>

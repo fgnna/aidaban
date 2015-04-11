@@ -13,16 +13,21 @@
 
     </style>
 
-    <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
-
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!-- ActionBar -->
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:actionBarTabBarStyle">@style/MyActionBarTabBarStyle</item>
         <item name="android:actionBarTabTextStyle">@style/MyActionBarTabTextStyle</item>
         <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
     </style>
-
+    
+      <!--  所有图片默认为自动居中适应ImageView的大水，高宽都适应 -->
+    <style name="BaseImageView" >
+         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    
     <!-- ActionBar -->
     <style name="MyActionBar" parent="android:Widget.Holo.ActionBar">
         <item name="android:background">#F06292</item>
@@ -47,10 +52,9 @@
     </style>
 
     <!-- choice_head_imageView -->
-    <style name="ChoiceHeadImageView">
-        <item name="android:layout_width">match_parent</item>
+    <style name="ChoiceHeadImageView" parent="BaseImageView">
         <item name="android:layout_height">200dp</item>
-        <item name="android:scaleType">centerCrop</item>
+        
     </style>
     <!-- choice_body_item_linearLayout -->
     <style name="ChoiceHeadItemLinearLayout">
@@ -92,10 +96,8 @@
     </style>
 
     <!-- choice_body_item_linearLayout_imageView -->
-    <style name="ChoiceBodyItemLinearLayoutImageView">
-        <item name="android:layout_width">match_parent</item>
+    <style name="ChoiceBodyItemLinearLayoutImageView" parent="BaseImageView" >
         <item name="android:layout_height">120dp</item>
-        <item name="android:scaleType">centerCrop</item>
     </style>
 
     <!-- choice_body_item_linearLayout_textView -->
@@ -104,4 +106,10 @@
         <item name="android:layout_height">80dp</item>
     </style>
 
+    <!-- today -->
+    <style  name="TodayImageView"  parent="BaseImageView">
+         <item name="android:layout_height">300dp</item>
+    </style>
+    
+    
 </resources>

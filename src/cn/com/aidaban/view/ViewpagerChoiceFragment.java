@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import cn.com.aidaban.R;
-import cn.com.aidaban.model.bean.ChoiceBean;
+import cn.com.aidaban.model.bean.SubjectBean;
 import cn.com.aidaban.presenter.ChoicePresenter;
 import cn.com.aidaban.presenter.viewinterface.ChoiceViewInterface;
 import cn.com.aidaban.view.adapter.ChoiceListViewAdapter;
@@ -50,7 +50,7 @@ public class ViewpagerChoiceFragment extends Fragment implements ChoiceViewInter
 	}
 	
 	@Override
-	public void initPageData(final List<ChoiceBean> list)
+	public void initPageData(final List<SubjectBean> list)
 	{
 		mChoiceListViewAdapter = new ChoiceListViewAdapter(getActivity().getApplicationContext(),list,mChoicePresenter);
 		
@@ -62,7 +62,7 @@ public class ViewpagerChoiceFragment extends Fragment implements ChoiceViewInter
 	}
 	
 	@Override
-	public void updateNextPageData(final List<ChoiceBean> data)
+	public void updateNextPageData(final List<SubjectBean> data)
 	{
 		handler.post(new Runnable() {
 			   public void run() {

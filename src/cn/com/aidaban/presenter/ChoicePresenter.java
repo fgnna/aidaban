@@ -29,6 +29,7 @@ public class ChoicePresenter implements ChoiceListViewAdapter.DataUpdateCallback
 		this.init();
 	}
 	
+	@SuppressWarnings(value="all")
 	//初始化步骤
 	private void init()
 	{

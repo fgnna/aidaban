@@ -1,25 +1,28 @@
 package cn.com.aidaban.model.bean;
 
-import cn.com.aidaban.view.adapter.ChoiceListViewAdapter;
 import android.graphics.Bitmap;
 /**
- * 精彩页的数据模型
- * {@link ChoiceListViewAdapter } 的构造方法中，数据参数只接受这个数据模型
+ * 主题的数据模型
  * @author jie
  */
-public class ChoiceBean
+public class SubjectBean
 {
 	/**
 	 * 图片
 	 */
 	private Bitmap image;
 	/**
+	 *标题
+	 */
+	private String title;
+	/**
 	 * 说明内容
 	 */
 	private String content;
-	public ChoiceBean(Bitmap image,String content)
+	public SubjectBean(Bitmap image,String title,String content)
 	{
 		this.image = image;
+		this.title = title;
 		this.content = content;
 	}
 	public Bitmap getImage()
@@ -38,5 +41,14 @@ public class ChoiceBean
 	{
 		this.content = content;
 	}
+	public String getTitle()
+	{
+		return title;
+	}
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+	
 
 }
