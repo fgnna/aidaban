@@ -27,6 +27,11 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:scaleType">centerCrop</item>
     </style>
+    <!--  字体基类样式 -->
+     <style name="BaseTextView" >
+         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     
     <!-- ActionBar -->
     <style name="MyActionBar" parent="android:Widget.Holo.ActionBar">
@@ -67,9 +72,7 @@
         <item name="android:background">#FFDEE9</item>
     </style>
     <!-- choice_body_textView -->
-    <style name="ChoiceHeadTextView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="ChoiceHeadTextView" parent="BaseTextView">
         <item name="android:layout_weight">0.5</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">15sp</item>
@@ -109,6 +112,15 @@
     <!-- today -->
     <style  name="TodayImageView"  parent="BaseImageView">
          <item name="android:layout_height">300dp</item>
+    </style>
+    <style  name="TodayBaseTextView"  parent="BaseTextView">
+       <item name="android:background">#30000000</item>
+       <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style  name="TodayTextViewForTitle"  parent="TodayBaseTextView">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style  name="TodayTextViewForSummary"  parent="TodayBaseTextView">
     </style>
     
     
