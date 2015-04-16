@@ -44,7 +44,7 @@ public class ViewpagerChoiceFragment extends Fragment implements ChoiceViewInter
 		// 保证最后两个参数不被参改，即必须这样传参，（这是官方注释的原话，不知道我理解是否正确）
 		mListView= (ListView) inflater.inflate(R.layout.viewpager_choice, container, false);
 		
-		this.mChoicePresenter = new ChoicePresenter(getActivity().getApplicationContext(),this);
+		this.mChoicePresenter = new ChoicePresenter(getActivity(),this);
 		
 		return mListView;
 	}

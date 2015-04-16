@@ -3,9 +3,13 @@ package cn.com.aidaban.view;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -14,19 +18,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.aidaban.BuildConfig;
 import cn.com.aidaban.R;
+import cn.com.aidaban.presenter.NavigationDrawerPresenter;
+import cn.com.aidaban.presenter.viewinterface.NavigationDrawerViewInterface;
 
 /**
  * 抽屉导航管理类
  * @author jie
  */
-public class NavigationDrawerFragment extends Fragment
+public class NavigationDrawerFragment extends Fragment implements NavigationDrawerViewInterface
 {
 	private static final String LOG_TAG = "NavigationDrawerFragment";
 	/**
@@ -45,13 +51,17 @@ public class NavigationDrawerFragment extends Fragment
 	 */
 	private ActionBarDrawerToggle mDrawerToggle;
 	
+	private ImageView mLoginImageView;
 	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerListView;
 	private View mFragmentContainerView;
+	private TextView mLoginTextView;
 	
 	private int mCurrentSelectedPosition = 0;
 	private boolean mFromSavedInstanceState;
 	private boolean mUserLearnedDrawer;
+	
+	private NavigationDrawerPresenter mNavigationDrawerPresenter;
+	private  Handler handler = new Handler();
 	
 	public NavigationDrawerFragment()
 	{
@@ -91,25 +101,17 @@ public class NavigationDrawerFragment extends Fragment
 	
 	/**
 	 * 创建ListView列表
-	 * 
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		
-		mDrawerListView = (ListView) inflater.inflate(R.layout.navigation_drawer_main, container, false);
-		mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-		{
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-			{
-				selectItem(position);
-			}
-		});
-		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar().getThemedContext(), android.R.layout.simple_list_item_activated_1, android.R.id.text1, new String[]
-		{ getString(R.string.title_section1), getString(R.string.title_section2), getString(R.string.title_section3), }));
-		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-		return mDrawerListView;
+		View rootView = inflater.inflate(R.layout.navigation_drawer_main, container, false);
+		mLoginTextView = (TextView) rootView.findViewById(R.id.drawer_login_textview);
+		mLoginImageView = (ImageView) rootView.findViewById(R.id.drawer_login_imageview);
+		//主导器
+		mNavigationDrawerPresenter = new NavigationDrawerPresenter(getActivity(), this);
+		return rootView;
 	}
 	
 	/**
@@ -214,26 +216,6 @@ public class NavigationDrawerFragment extends Fragment
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
 	
-	/**
-	 * 抽屉的选项点击事件
-	 * @param position 被点中的选项的下标
-	 */
-	private void selectItem(int position)
-	{
-		if(BuildConfig.DEBUG)
-			Log.d(LOG_TAG,"selectItem");
-		//缓存当前选项下标
-		mCurrentSelectedPosition = position;
-		if (mDrawerListView != null)
-		{
-			mDrawerListView.setItemChecked(position, true);
-		}
-		if (mDrawerLayout != null)
-		{
-			mDrawerLayout.closeDrawer(mFragmentContainerView);
-		}
-
-	}
 	
 	/**
 	 * 初始化导航栏时触发
@@ -330,16 +312,53 @@ public class NavigationDrawerFragment extends Fragment
 	}
 	
 	/**
-	 * 点击选项后的回调事件，
-	 * 由activity现实，
-	 * implement.
+	 * 登录成功后由{@link MainActivity#onActivityResult(int, int, Intent)}回调，刷新登录信息
+	 * 
+	 * @see MainActivity#onActivityResult
 	 */
-	public static interface NavigationDrawerCallbacks
+	public void loginSuccess()
 	{
-		/**
-		 * 通知activity当前第几项发生点击事件
-		 */
-		void onNavigationDrawerItemSelected(int position);
+		//重新建立主导器达到初始化的目的
+		mNavigationDrawerPresenter = new NavigationDrawerPresenter(getActivity(), this);
 	}
+	
+	/******************************************************************************************
+	 * 下面所有方法为主导器接口实现
+	 ******************************************************************************************/
+
+	@Override
+	public void setLoginTextViewOnClickListener(OnClickListener onClickListener)
+	{
+		mLoginTextView.setOnClickListener(onClickListener);
+	}
+
+	@Override
+	public void setLoginTextViewForText(String text)
+	{
+		mLoginTextView.setText(text);
+	}
+
+	@Override
+	public void setLoginImageViewForBitmap(final Bitmap image)
+	{
+		this.handler.post(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				mLoginImageView.setImageBitmap(image);
+			}
+		});
+		
+	}
+
+	@Override
+	public void toLoginActivity()
+	{
+		//跳转登录页
+		Intent toLoginViewIntent = new Intent(getActivity(),LoginActivity.class);  
+		getActivity().startActivityForResult(toLoginViewIntent, 1);
+	}
+
 	
 }

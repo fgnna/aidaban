@@ -2,6 +2,7 @@ package cn.com.aidaban.view;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -18,7 +19,7 @@ import cn.com.aidaban.view.adapter.MainViewpagerAdapter;
  * @author jie
  *
  */
-public class MainActivity extends FragmentActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks
+public class MainActivity extends FragmentActivity 
 {
 	private static final String LOG_TAG = "MainActivity";
 	
@@ -94,22 +95,7 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 		
 	}
 	
-	
-	@Override
-	public void onNavigationDrawerItemSelected(int position)
-	{
-		/*************************************************
-		 * /TODO 这里用于响应侧滑菜单项的点击事件
-		 * 
-		 *************************************************/
-		if(BuildConfig.DEBUG)
-			Log.d(LOG_TAG, "onNavigationDrawerItemSelected");
-		/* 
-		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
-		*/
-	}
+
 
 	/**
 	 *在开关抽屉的过程中触发的事件
@@ -128,4 +114,16 @@ public class MainActivity extends FragmentActivity implements NavigationDrawerFr
 		return super.onCreateOptionsMenu(menu);
 	}
 	
+	/**
+	 * 用户通过点击侧滑侧的登录按钮跳转到登录界面，
+	 * 当发生onActivityResult事件，即表示登录成功并返回，
+	 * 当返回后{@link NavigationDrawerFragment}需要重新刷新登录信息
+	 */
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2)
+	{
+		super.onActivityResult(arg0, arg1, arg2);
+		if(BuildConfig.DEBUG) Log.d(LOG_TAG,"登录完成");
+		this.mNavigationDrawerFragment.loginSuccess();
+	}
 }

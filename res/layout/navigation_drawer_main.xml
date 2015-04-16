@@ -1,9 +1,31 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#cccc"
-    android:choiceMode="singleChoice"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="0dp"
-    tools:context="cn.com.aidaban.view.NavigationDrawerFragment" />
+    android:background="@android:color/white"
+    tools:context="cn.com.aidaban.view.NavigationDrawerFragment" >
+    
+    <FrameLayout 
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#666699"
+        >
+        <ImageView
+            android:id="@+id/drawer_login_imageview" 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/no_login_head_img"
+            />
+        <TextView
+            android:id="@+id/drawer_login_textview" 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:text="点 击 登  录"
+            />
+    </FrameLayout>
+    
+    
+</LinearLayout>

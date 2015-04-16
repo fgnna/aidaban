@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import cn.com.aidaban.BuildConfig;
 import cn.com.aidaban.R;
-import cn.com.aidaban.common.BaseBitmapFactory;
 import cn.com.aidaban.model.bean.SubjectBean;
+import cn.com.aidaban.view.ContentActivity;
 
 /**
  * 精彩页，ListView适配器
@@ -32,8 +32,8 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	 * mDataListLeft 左视图， mDataListRight 右视图
 	 */
 	private SubjectBean mHeadData;
-	private List<SubjectBean> mDataListLeft = new ArrayList<SubjectBean>();
-	private List<SubjectBean> mDataListRight = new ArrayList<SubjectBean>();
+	private List<SubjectBean> mDataListLeft = new ArrayList<SubjectBean>(20);
+	private List<SubjectBean> mDataListRight = new ArrayList<SubjectBean>(20);
 	
 	// 备用
 	private Context mContext;
@@ -43,6 +43,14 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	private DataUpdateCallback mDataUpdateCallback;
 	//是否正通知更新,用此标记，避免同一时间多次调用
 	private boolean isCallbacking;
+	
+	/**
+	 * 统一的跳转点击事件,跳转到全文显示页
+	 * 本应用只作学习和展示使用，所以全文内容不作动态变化，统一跳转并显示默认容易
+	 * 
+	 * @see #ChoiceListViewAdapter(Context, List, DataUpdateCallback)
+	 */
+	private OnClickListener mItemOnClickListener;
 	
 	private ChoiceListViewAdapter()
 	{
@@ -54,11 +62,27 @@ public class ChoiceListViewAdapter extends BaseAdapter
 	 * @param context
 	 * @param dataList
 	 *            这里的传入数据限定为 {@link SubjectBean} 的集合
+	 *            
+	 * @see #mItemOnClickListener
 	 */
 	public ChoiceListViewAdapter(Context context, List<SubjectBean> dataList ,DataUpdateCallback dataUpdateCallback)
 	{
 		this.mContext = context;
 		this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		this.mItemOnClickListener = new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				//跳转到全文显示页
+				Intent toContextViewIntent =  new Intent(mContext,ContentActivity.class); 
+				toContextViewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
+				mContext.startActivity(toContextViewIntent);
+			}
+		}; 
+		
 		
 		/**
 		 * 检查是否有现实{@link ChoiceListViewAdapter.DataUpdateCallback}
@@ -157,6 +181,8 @@ public class ChoiceListViewAdapter extends BaseAdapter
 			mDataUpdateCallback.notifyLast(position - 1);
 			isCallbacking = true;
 		}
+		
+		view.setOnClickListener(this.mItemOnClickListener);
 		
 		return view;
 	}

@@ -42,7 +42,7 @@ public class ViewpagerTodayFragment extends Fragment implements TodayViewInterfa
 	{
 		// 保证最后两个参数不被参改，即必须这样传参，（这是官方注释的原话，不知道我理解是否正确）
 		mListView = (ListView) inflater.inflate(R.layout.viewpager_today, container, false);
-		this.mTodayPresenter = new TodayPresenter(getActivity().getApplicationContext(),this);
+		this.mTodayPresenter = new TodayPresenter(getActivity(),this);
 		return mListView;
 	}
 
