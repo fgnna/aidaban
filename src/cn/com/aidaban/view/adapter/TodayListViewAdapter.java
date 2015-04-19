@@ -70,7 +70,7 @@ public class TodayListViewAdapter extends BaseAdapter
 			{
 				//跳转到全文显示页
 				Intent toContextViewIntent =  new Intent(mContext,ContentActivity.class); 
-				toContextViewIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);  
+				toContextViewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
 				mContext.startActivity(toContextViewIntent);
 			}
 		}; 
