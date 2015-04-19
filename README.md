@@ -7,5 +7,5 @@
   项目结构完全使用<strong style='backgroud-color:red;'>MVP</strong>模式开。
 
 ### 预览图
-[image]: https://github.com/fgnna/aidaban/tree/master/README_FILES/UI_CHOICE.png "主界面"  
+[image]: https://github.com/fgnna/aidaban/blob/master/README_FILES/UI_CHOICE.jpg
 
