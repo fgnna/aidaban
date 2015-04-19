@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
 import cn.com.aidaban.R;
-import cn.com.aidaban.common.BaseBitmapFactory;
+import cn.com.aidaban.common.BaseImageFactory;
 import cn.com.aidaban.model.UserInfoModel;
 import cn.com.aidaban.model.bean.UserBean;
 import cn.com.aidaban.presenter.modelinterface.UserInfoModelInterface;

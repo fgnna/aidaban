@@ -67,8 +67,9 @@
         <item name="android:layout_height">30dp</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:weightSum">2</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:gravity">center</item>
         <item name="android:background">#FFDEE9</item>
     </style>
     <!-- choice_body_textView -->
@@ -87,7 +88,7 @@
         <item name="android:orientation">vertical</item>
         <item name="android:layout_marginBottom">2dp</item>
         <item name="android:layout_weight">0.5</item>
-        <item name="android:background">@drawable/choice_body_background_border</item>
+        <item name="android:background">@drawable/content_photo_frame</item>
     </style>
 
     <style name="ChoiceBodyItemLinearLayoutLeft" parent="ChoiceBodyItemLinearLayout">

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import cn.com.aidaban.BuildConfig;
 import cn.com.aidaban.R;
-import cn.com.aidaban.common.BaseBitmapFactory;
+import cn.com.aidaban.common.BaseImageFactory;
 import cn.com.aidaban.model.UserInfoModel;
 import cn.com.aidaban.presenter.modelinterface.UserInfoModelInterface;
 import cn.com.aidaban.presenter.viewinterface.NavigationDrawerViewInterface;
@@ -52,7 +52,7 @@ public class NavigationDrawerPresenter implements OnClickListener
 				protected Object doInBackground(Object... params)
 				{
 					mViewInterface.setLoginImageViewForBitmap(
-							BaseBitmapFactory.createBitmapByURL(
+							BaseImageFactory.createBitmapByURL(
 									mModelInterface.getLoginUserHeadImageRUL()));
 					return null;
 				}

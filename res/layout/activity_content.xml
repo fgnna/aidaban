@@ -3,110 +3,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!-- 标题 以content_加内容 -->
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
+		<LinearLayout
+		    android:orientation="vertical"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:padding="5dp"
+		    >
+		    <!-- 标题 -->
+		    <TextView 
+		        android:layout_width="match_parent"
+		        android:layout_height="35dp"
+		        android:textSize="25sp"
+		        android:text="毕业季战痘拉响警报"
+		        />
+		    <!-- 时间 -->
+		    <TextView 
+		        android:layout_width="match_parent"
+		        android:layout_height="30dp"
+		        android:textSize="12sp"
+		        android:textColor="@android:color/darker_gray"
+		        android:text="2015年03月10日"
+		        />
+		    <!-- 内容 -->
+			<TextView 
+			    android:id="@+id/content_bodyText"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+			    android:text=""
+			    />    
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
-         
-            <!-- 内容布局 -->
-
-            <LinearLayout
-                android:id="@+id/content_middle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/content_title"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="vertical" >
-
-                <!-- 文字以tv_为头，加内容 -->
-
-                <TextView
-                    android:id="@+id/tv_middle_title"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="毕业季站痘拉响警报"
-                    android:textColor="#000000"
-                    android:textSize="23sp" />
-
-                <TextView
-                    android:id="@+id/tv_middle_time"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="2015年03月10日"
-                    android:textColor="#B1B1B1"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="通过前面5章的学习，我们知道了如何通过JNI函数来访问JVM中的基本数据类型、字符串和数组这些数据类型。下一步我们来学习本地代码如何与JVM中任意对象的属性和方法进行交互。比如本地代码调用Java层某个对象的方法或属性，也就是通常我们所说的来自C/C++层本地函数的callback（回调）。这个知识点分2篇文章分别介绍，本篇先介绍方法回调，在第七章中介绍本地代码访问Java的属性" />
-            </LinearLayout>
-            <!-- 下面的是两个图片的布局 -->
-
-            <LinearLayout
-                android:id="@+id/content_imager"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/content_middle"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/c" />
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/d" />
-            </LinearLayout>
-        </LinearLayout>
+		</LinearLayout>
+      
     </ScrollView>
-    <!-- 底部导航 -->
+    <!-- 底部导航 FunctionBar -->
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="#FFFFFF" >
+        android:background="@drawable/content_functionbar_border" >
 
+        <!-- 红心喜欢按钮 -->
         <ImageButton
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tv_commentbtn"
-            android:background="@drawable/likebtn" />
+            android:layout_toLeftOf="@+id/content_functionbar_favorite"
+            android:background="@drawable/content_functionbar_likebtn" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="5dp"
-            android:background="#FFC0D7" />
-
+        <!-- 评论 -->
         <ImageButton
-            android:id="@+id/tv_commentbtn"
+            android:id="@+id/content_functionbar_favorite"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/commentbtn" />
+            android:background="@drawable/content_functionbar_commentbtn" />
     </RelativeLayout>
 
 </RelativeLayout>

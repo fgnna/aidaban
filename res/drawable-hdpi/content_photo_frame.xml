@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- 内容页图片相框 -->
+    <item>
+        <shape>
+            <padding
+                android:bottom="1px"
+                android:left="0dp"
+                android:right="1px"
+                android:top="0dp" />
+
+            <solid android:color="#EBEBEB" />
+
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+  
+    <item>
+        <shape>
+            <padding
+                android:bottom="1px"
+                android:left="0dp"
+                android:right="1px"
+                android:top="0dp" />
+
+            <solid android:color="#CFCFCF" />
+
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    
+      <item>
+        <shape>
+            <padding
+                android:bottom="1px"
+                android:left="0px"
+                android:right="1px"
+                android:top="0px" />
+
+            <solid android:color="#D4D6D5" />
+
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+      <item>
+        <shape>
+            <padding
+                android:bottom="1px"
+                android:left="0px"
+                android:right="1px"
+                android:top="0px" />
+
+            <solid android:color="#F8F8F8" />
+
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    
+      <!-- 内框，左侧和顶端 -->
+      <item>
+        <shape>
+            <padding
+                android:bottom="0px"
+                android:left="1px"
+                android:right="0px"
+                android:top="1px" />
+
+            <solid android:color="#F0F0F0" />
+
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    
+      <item>
+        <shape>
+            <padding
+                android:bottom="0px"
+                android:left="1px"
+                android:right="0px"
+                android:top="1px" />
+
+            <solid android:color="#F5F5F5" />
+
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    
+    <item>
+        <shape>
+            <padding
+                android:bottom="2px"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp" />
+
+            <solid android:color="#FDFDFD" />
+        </shape>
+    </item>
+
+</layer-list>

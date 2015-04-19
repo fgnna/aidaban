@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import cn.com.aidaban.BuildConfig;
 import cn.com.aidaban.R;
-import cn.com.aidaban.common.BaseBitmapFactory;
+import cn.com.aidaban.common.BaseImageFactory;
 import cn.com.aidaban.model.bean.SubjectBean;
 import cn.com.aidaban.view.ContentActivity;
 import cn.com.aidaban.view.adapter.ChoiceListViewAdapter.DataUpdateCallback;
